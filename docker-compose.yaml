@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
+    ports:
+    - target: 80
+      published: 80
+  flask-app:
+    build: ./flask-app
+    image: mrbilalshafiq/flaskapp:latest
+    ports:
+    - target: 5000
+      published: 5000
+  mysql:
+    build: ./db
+    image: mrbilalshafiq/db:latest
+    ports:
+    - target: 3306
+      published: 3306
+    environment:
+      MYSQL_DATABASE: flask-db
+      MYSQL_ROOT_PASSWORD: root
